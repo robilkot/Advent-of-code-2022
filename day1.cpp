@@ -8,7 +8,10 @@ using namespace std;
 
 void day1() {
 	ifstream inp("day1.txt");
-	if (!inp.is_open()) cout << "file not opened!\n";
+	if (!inp.is_open()) {
+		cout << "file not opened!\n";
+		return;
+	}
 
 	vector<int> elvesfood({ 0 });
 	int iterator = 0, maxnumber = 0, secondnumber = 0, thirdnumber = 0;
@@ -38,4 +41,5 @@ void day1() {
 	cout << "Elf with 2nd amount of food is " << secondnumber + 1 << ". It has " << elvesfood[secondnumber] << " points of food\n";
 	cout << "Elf with 3rd amount of food is " << thirdnumber + 1 << ". It has " << elvesfood[thirdnumber] << " points of food\n\n";
 	cout << "The total food of top-3 elves is " << elvesfood[maxnumber] + elvesfood[secondnumber] + elvesfood[thirdnumber] << "\n";
+	inp.close();
 }
