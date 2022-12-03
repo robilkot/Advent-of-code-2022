@@ -4,6 +4,6 @@
 using namespace std;
 
 int main() {
-	day3_1();
+	day3_2();
 	return 0;
 }
