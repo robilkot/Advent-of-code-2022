@@ -52,6 +52,56 @@ void rotatematrix(vector<vector< T >>& mat) {
 	}
 }
 
+void analizetree(const vector<vector<int>>& map, vector<vector<int>>& scores, short m, short n) {
+	if (scores[m][n] == 0) return;
+	int score = 0;
+	for (int i = 1; i < map[m].size()-n; i++) {
+		 if (map[m][n] <= map[m][n + i]) {
+			score++;
+			break;
+		}
+		score++;
+	}
+	scores[m][n] *= score;
+	if (score == 0) return;
+	score = 0;
+	
+	for (int i = 1; i < n+1; i++) {
+		if (map[m][n] <= map[m][n - i]) {
+			score++;
+			break;
+		}
+		score++;
+	}
+	scores[m][n] *= score;
+	if (score == 0) return;
+	score = 0;
+
+	if (scores[m][n] == 0) return;
+	score = 0;
+	for (int i = 1; i < map.size() - m; i++) {
+		 if (map[m][n] <= map[m+i][n]) {
+			score++;
+			break;
+		}
+		score++;
+	}
+	scores[m][n] *= score;
+	if (score == 0) return;
+	score = 0;
+
+	if (scores[m][n] == 0) return;
+	score = 0;
+	for (int i = 1; i < m+1; i++) {
+		if (map[m][n] <= map[m - i][n]) {
+			score++;
+			break;
+		}
+		score++;
+	}
+	scores[m][n] *= score;
+}
+
 void day8_1() {
 	ifstream inp("day8.txt");
 	if (!inp.is_open()) {
@@ -81,4 +131,36 @@ void day8_1() {
 	for (vector<bool> i : visible) for (bool k : i) answer += k;
 
 	cout << "Visible trees: " << answer << "\n";
+}
+
+void day8_2() {
+	ifstream inp("day8.txt");
+	if (!inp.is_open()) {
+		cout << "file not opened!\n";
+		return;
+	}
+	vector<vector<int>> map;
+	string currentstring;
+	for (int linenumber = 0; getline(inp, currentstring); linenumber++) {
+		map.push_back({});
+		for (char x : currentstring) map[linenumber].push_back(x - 48);
+	}
+	inp.close();
+
+	vector<vector<int>> scores;
+	for (int i = 0; i < map.size(); i++) {
+		scores.push_back({});
+		for (int k = 0; k < map[i].size(); k++) {
+			if (i == 0 || i == map.size()-1 || k==0 || k==map[i].size()-1)	scores[i].push_back(0);
+			else scores[i].push_back(1);
+			analizetree(map, scores, i, k);
+		}
+	}
+
+	//showmap(map);
+	//showmap(scores);
+
+	int answer = 1;
+	for (vector<int> i : scores) for (int k : i) if (k > answer) answer = k;
+	cout << "The best spot has score: " << answer << "\n";
 }
