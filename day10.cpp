@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#define DEMO
+
 using namespace std;
 
 void display(const vector<vector<char>>& m) {
@@ -14,11 +16,13 @@ void display(const vector<vector<char>>& m) {
 
 void nextcycle(int& currentcycle, int& X, int& answer, vector<vector<char>>& crt) {
 	short crtpos = (currentcycle - 1) % 40;
-	if (crtpos == X || crtpos == X - 1 || crtpos == X + 1) crt[currentcycle / 40][crtpos] = '0';
-	/*if (currentcycle % 5 == 0) {
+	if (crtpos == X || crtpos == X - 1 || crtpos == X + 1) crt[currentcycle / 40][crtpos] = '#';
+#ifdef DEMO
+	if (currentcycle % 5 == 0) {
 		system("CLS");
 		display(crt);
-	}*/
+	}
+#endif
 	if ((currentcycle - 20) % 40 == 0 && currentcycle < 220 + 1) answer += currentcycle * X;
 	currentcycle++;
 }
@@ -46,6 +50,9 @@ void day10() {
 		}
 	}
 	inp.close();
+#ifdef DEMO
+	system("CLS");
+#endif
 	display(crt);
 	cout << "\nThe sum for part 1 is " << answer << "\n";
 }
